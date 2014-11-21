@@ -2,6 +2,7 @@ RecipeManagerKata
 =================
 
 A C# code kata exploring ports, adapters, and simulators...
+This is an updated version that makes the adapter concept clearer...
 
 #Introduction
 
