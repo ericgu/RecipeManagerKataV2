@@ -13,44 +13,30 @@ namespace RecipeManager
 {
     public partial class Form1 : Form
     {
-        private List<Recipe> m_recipes = new List<Recipe>();
         private RecipeStore m_recipeStore;
         private RecipeStoreLocator m_recipeStoreLocator = new RecipeStoreLocator();
+        private RecipeManagerUI m_recipeManagerUI;
+        private RecipeManager m_recipeManager;
 
         public Form1()
         {
             InitializeComponent();
 
-            LoadRecipes();
+            m_recipeManagerUI = new RecipeManagerUI(listView1);
+
             textBoxRecipeDirectory.Text = m_recipeStoreLocator.GetRecipeDirectory();
             m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
-        }
-
-        private void LoadRecipes()
-        {
-            m_recipes = m_recipeStore.Load();
-
-            PopulateList();
-        }
-
-        private void PopulateList()
-        {
-            listView1.Items.Clear();
-
-            foreach (Recipe recipe in m_recipes)
-            {
-                listView1.Items.Add(new RecipeListViewItem(recipe));
-            }
+            m_recipeManager = new RecipeManager(m_recipeStore, m_recipeManagerUI);
+            m_recipeManager.LoadRecipes();
         }
 
         private void DeleteClick(object sender, EventArgs e)
         {
             foreach (RecipeListViewItem recipeListViewItem in listView1.SelectedItems)
             {
-                m_recipes.Remove(recipeListViewItem.Recipe);
                 m_recipeStore.Delete(recipeListViewItem.Recipe.Name);
             }
-            PopulateList();
+            m_recipeManagerUI.PopulateList(m_recipeManager.Recipes);
 
             NewClick(null, null);
         }
@@ -64,7 +50,7 @@ namespace RecipeManager
         private void SaveClick(object sender, EventArgs e)
         {
             m_recipeStore.Save(textBoxName.Text, textBoxObjectData.Text);
-            LoadRecipes();
+            m_recipeManager.LoadRecipes();
         }
 
         private void SelectedIndexChanged(object sender, EventArgs e)
@@ -81,7 +67,7 @@ namespace RecipeManager
         {
             m_recipeStoreLocator.SetRecipeDirectory(textBoxRecipeDirectory.Text);
             m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
-            LoadRecipes();
+            m_recipeManager.LoadRecipes();
             NewClick(null, null);
         }
     }
