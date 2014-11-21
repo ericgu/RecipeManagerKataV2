@@ -10,26 +10,18 @@ namespace RecipeManager
     [TestClass]
     public class RecipeStoreSimulatorTests
     {
-        [TestMethod()]
-        public void when_I_call_Load_on_an_empty_RecipeStore__it_returns_an_empty_list()
+        private static IRecipeStore CreateRecipeStore()
         {
-            RecipeStoreSimulator recipeStoreSimulator = new RecipeStoreSimulator();
-
-            var recipes = recipeStoreSimulator.Load();
-
-            Assert.AreEqual(0, recipes.Count);
+            //return new RecipeStoreSimulator();
+            return new RecipeStore(@"e:\temp");
         }
 
-        [TestMethod()]
-        public void when_I_save_a_single_recipe_and_call_load__it_returns_that_recipe()
+        private static void ClearStore(IRecipeStore recipeStore)
         {
-            RecipeStoreSimulator recipeStoreSimulator = new RecipeStoreSimulator();
-            recipeStoreSimulator.Save("Grits", "Grind and cook");
-
-            var recipes = recipeStoreSimulator.Load();
-
-            Assert.AreEqual(1, recipes.Count);
-            ValidateRecipe(recipes, 0, "Grits", "Grind and cook");
+            foreach (Recipe recipe in recipeStore.Load())
+            {
+                recipeStore.Delete(recipe.Name);
+            }
         }
 
         private static void ValidateRecipe(List<Recipe> recipes, int index, string name, string directions)
@@ -39,32 +31,65 @@ namespace RecipeManager
         }
 
         [TestMethod()]
+        public void when_I_call_Load_on_an_empty_RecipeStore__it_returns_an_empty_list()
+        {
+            var recipeStore = CreateRecipeStore();
+
+            var recipes = recipeStore.Load();
+
+            Assert.AreEqual(0, recipes.Count);
+
+            ClearStore(recipeStore);
+        }
+
+
+        [TestMethod()]
+        public void when_I_save_a_single_recipe_and_call_load__it_returns_that_recipe()
+        {
+            var recipeStore = CreateRecipeStore();
+
+            recipeStore.Save("Grits", "Grind and cook");
+
+            var recipes = recipeStore.Load();
+
+            Assert.AreEqual(1, recipes.Count);
+            ValidateRecipe(recipes, 0, "Grits", "Grind and cook");
+
+            ClearStore(recipeStore);
+        }
+
+
+        [TestMethod()]
         public void when_I_save_two_recipes_and_call_load__it_returns_both_recipes()
         {
-            RecipeStoreSimulator recipeStoreSimulator = new RecipeStoreSimulator();
-            recipeStoreSimulator.Save("Grits", "Grind and cook");
-            recipeStoreSimulator.Save("Bacon", "Saute");
+            var recipeStore = CreateRecipeStore();
+            recipeStore.Save("Grits", "Grind and cook");
+            recipeStore.Save("Bacon", "Saute");
 
-            var recipes = recipeStoreSimulator.Load();
+            var recipes = recipeStore.Load();
 
             Assert.AreEqual(2, recipes.Count);
-            ValidateRecipe(recipes, 0, "Grits", "Grind and cook");
-            ValidateRecipe(recipes, 1, "Bacon", "Saute");
+            ValidateRecipe(recipes, 0, "Bacon", "Saute");
+            ValidateRecipe(recipes, 1, "Grits", "Grind and cook");
+
+            ClearStore(recipeStore);
         }
 
         [TestMethod()]
         public void when_I_save_two_recipes_delete_one_and_call_load__it_returns_one_recipe()
         {
-            RecipeStoreSimulator recipeStoreSimulator = new RecipeStoreSimulator();
-            recipeStoreSimulator.Save("Grits", "Grind and cook");
-            recipeStoreSimulator.Save("Bacon", "Saute");
+            var recipeStore = CreateRecipeStore();
+            recipeStore.Save("Grits", "Grind and cook");
+            recipeStore.Save("Bacon", "Saute");
 
-            recipeStoreSimulator.Delete("Grits");
+            recipeStore.Delete("Grits");
 
-            var recipes = recipeStoreSimulator.Load();
+            var recipes = recipeStore.Load();
 
             Assert.AreEqual(1, recipes.Count);
             ValidateRecipe(recipes, 0, "Bacon", "Saute");
+
+            ClearStore(recipeStore);
         }
     }
 }
