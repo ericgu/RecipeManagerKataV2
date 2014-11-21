@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RecipeManager
 {
-public class RecipeStore
+public class RecipeStore : IRecipeStore
 {
     private string m_directory;
 
