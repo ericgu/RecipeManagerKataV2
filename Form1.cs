@@ -15,44 +15,20 @@ namespace RecipeManager
     {
         private List<Recipe> m_recipes = new List<Recipe>();
         private RecipeStore m_recipeStore;
+        private RecipeStoreLocator m_recipeStoreLocator = new RecipeStoreLocator();
 
         public Form1()
         {
             InitializeComponent();
 
             LoadRecipes();
-            textBoxRecipeDirectory.Text = GetRecipeDirectory();
-            m_recipeStore = new RecipeStore(GetRecipeDirectory());
+            textBoxRecipeDirectory.Text = m_recipeStoreLocator.GetRecipeDirectory();
+            m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
         }
 
-        private string GetRecipeDirectory()
-        {
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "RecipeMaker");
-
-            if (File.Exists(directory + @"\" + "RecipeDirectory.txt"))
-            {
-                directory = File.ReadAllText(directory + @"\" + "RecipeDirectory.txt");
-            }
-            else
-            {
-                directory += @"\RecipeDirectory";
-            }
-
-            return directory;
-        }
-
-        private void SetRecipeDirectory(string recipeDirectory)
-        {
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "RecipeMaker");
-
-            File.WriteAllText(directory + @"\" + "RecipeDirectory.txt", recipeDirectory);
-        }
-
-private void LoadRecipes()
+        private void LoadRecipes()
 {
-    string directory = GetRecipeDirectory();
+    string directory = m_recipeStoreLocator.GetRecipeDirectory();
     m_recipes = m_recipeStore.Load();
 
     PopulateList();
@@ -104,8 +80,8 @@ private void LoadRecipes()
 
         private void buttonSaveRecipeDirectory_Click(object sender, EventArgs e)
         {
-            SetRecipeDirectory(textBoxRecipeDirectory.Text);
-            m_recipeStore = new RecipeStore(GetRecipeDirectory());
+            m_recipeStoreLocator.SetRecipeDirectory(textBoxRecipeDirectory.Text);
+            m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
             LoadRecipes();
             NewClick(null, null);
         }
