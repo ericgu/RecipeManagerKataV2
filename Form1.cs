@@ -27,12 +27,11 @@ namespace RecipeManager
         }
 
         private void LoadRecipes()
-{
-    string directory = m_recipeStoreLocator.GetRecipeDirectory();
-    m_recipes = m_recipeStore.Load();
+        {
+            m_recipes = m_recipeStore.Load();
 
-    PopulateList();
-}
+            PopulateList();
+        }
 
         private void PopulateList()
         {

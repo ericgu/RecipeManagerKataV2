@@ -52,12 +52,15 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IRecipeStore.cs" />
+    <Compile Include="IRecipeStoreLocator.cs" />
     <Compile Include="RecipeListViewItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeStore.cs" />
     <Compile Include="RecipeStoreLocator.cs" />
+    <Compile Include="RecipeStoreLocatorSimulator.cs" />
     <Compile Include="RecipeStoreSimulator.cs" />
+    <Compile Include="RecipeStoreLocator_Tests.cs" />
     <Compile Include="RecipeStore_Tests.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Recipe.cs" />

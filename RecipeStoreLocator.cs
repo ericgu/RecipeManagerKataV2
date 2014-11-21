@@ -3,7 +3,7 @@ using System.IO;
 
 namespace RecipeManager
 {
-    public class RecipeStoreLocator
+    public class RecipeStoreLocator : IRecipeStoreLocator
     {
         public string GetRecipeDirectory()
         {
@@ -28,6 +28,16 @@ namespace RecipeManager
                 "RecipeMaker");
 
             File.WriteAllText(directory + @"\" + "RecipeDirectory.txt", recipeDirectory);
+        }
+
+        public void ResetToDefault()
+        {
+            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RecipeMaker");
+
+            if (File.Exists(directory + @"\" + "RecipeDirectory.txt"))
+            {
+                File.Delete(directory + @"\" + "RecipeDirectory.txt");
+            }
         }
     }
 }
