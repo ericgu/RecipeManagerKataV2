@@ -14,7 +14,7 @@ namespace RecipeManager
     public partial class Form1 : Form
     {
         private List<Recipe> m_recipes = new List<Recipe>();
-        private RecipeStore m_recipeStore = new RecipeStore();
+        private RecipeStore m_recipeStore;
 
         public Form1()
         {
@@ -22,6 +22,7 @@ namespace RecipeManager
 
             LoadRecipes();
             textBoxRecipeDirectory.Text = GetRecipeDirectory();
+            m_recipeStore = new RecipeStore(GetRecipeDirectory());
         }
 
         private string GetRecipeDirectory()
@@ -52,7 +53,7 @@ namespace RecipeManager
 private void LoadRecipes()
 {
     string directory = GetRecipeDirectory();
-    m_recipes = m_recipeStore.Load(directory);
+    m_recipes = m_recipeStore.Load();
 
     PopulateList();
 }
@@ -72,9 +73,7 @@ private void LoadRecipes()
             foreach (RecipeListViewItem recipeListViewItem in listView1.SelectedItems)
             {
                 m_recipes.Remove(recipeListViewItem.Recipe);
-                string directory = GetRecipeDirectory();
-
-                m_recipeStore.Delete(directory, recipeListViewItem.Recipe.Name);
+                m_recipeStore.Delete(recipeListViewItem.Recipe.Name);
             }
             PopulateList();
 
@@ -89,9 +88,7 @@ private void LoadRecipes()
 
         private void SaveClick(object sender, EventArgs e)
         {
-            string directory = GetRecipeDirectory();
-
-            m_recipeStore.Save(directory, textBoxName.Text, textBoxObjectData.Text);
+            m_recipeStore.Save(textBoxName.Text, textBoxObjectData.Text);
             LoadRecipes();
         }
 
@@ -108,6 +105,7 @@ private void LoadRecipes()
         private void buttonSaveRecipeDirectory_Click(object sender, EventArgs e)
         {
             SetRecipeDirectory(textBoxRecipeDirectory.Text);
+            m_recipeStore = new RecipeStore(GetRecipeDirectory());
             LoadRecipes();
             NewClick(null, null);
         }

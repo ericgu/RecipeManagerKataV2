@@ -6,9 +6,16 @@ namespace RecipeManager
 {
 public class RecipeStore
 {
-    public List<Recipe> Load(string directory)
+    private string m_directory;
+
+    public RecipeStore(string directory)
     {
-        DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+        m_directory = directory;
+    }
+
+    public List<Recipe> Load()
+    {
+        DirectoryInfo directoryInfo = new DirectoryInfo(m_directory);
         directoryInfo.Create();
 
         return directoryInfo.GetFiles("*")
@@ -23,14 +30,14 @@ public class RecipeStore
             .ToList();
     }
 
-    public void Delete(string directory, string name)
+    public void Delete(string name)
     {
-        File.Delete(directory + @"\" + name);
+        File.Delete(m_directory + @"\" + name);
     }
 
-    public void Save(string directory, string name, string directions)
+    public void Save(string name, string directions)
     {
-        File.WriteAllText(Path.Combine(directory, name), directions);
+        File.WriteAllText(Path.Combine(m_directory, name), directions);
     }
 }
 }
