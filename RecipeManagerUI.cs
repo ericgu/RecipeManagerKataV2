@@ -9,12 +9,21 @@ public class RecipeManagerUI : IRecipeManagerUI
     private TextBox m_textBoxName;
     private TextBox m_textBoxDirections;
 
-    public RecipeManagerUI(ListView listView, Button newButton, TextBox textBoxName, TextBox textBoxDirections)
+    public RecipeManagerUI(ListView listView, Button newButton, Button saveButton, TextBox textBoxName, TextBox textBoxDirections)
     {
         m_listView = listView;
         newButton.Click += newButton_Click;
+        saveButton.Click += saveButton_Click;
         m_textBoxName = textBoxName;
         m_textBoxDirections = textBoxDirections;
+    }
+
+    void saveButton_Click(object sender, System.EventArgs e)
+    {
+        if (SaveClick != null)
+        {
+            SaveClick();
+        }
     }
 
     void newButton_Click(object sender, System.EventArgs e)
@@ -35,6 +44,7 @@ public class RecipeManagerUI : IRecipeManagerUI
         }
     }
 
+    public event System.Action SaveClick;
     public event System.Action NewClick;
 
     public string RecipeName

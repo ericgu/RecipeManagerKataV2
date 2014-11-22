@@ -15,6 +15,7 @@ public class RecipeManager
         m_recipeStore = recipeStore;
 
         m_recipeManagerUi.NewClick += New;
+        m_recipeManagerUi.SaveClick += Save;
     }
 
     public List<Recipe> Recipes { get { return m_recipes; } }
@@ -30,6 +31,12 @@ public class RecipeManager
     {
         m_recipeManagerUi.RecipeName = "";
         m_recipeManagerUi.RecipeDirections = "";
+    }
+
+    public void Save()
+    {
+        m_recipeStore.Save(m_recipeManagerUi.RecipeName, m_recipeManagerUi.RecipeDirections);
+        LoadRecipes();
     }
 }
 }

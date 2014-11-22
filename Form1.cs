@@ -22,7 +22,7 @@ namespace RecipeManager
         {
             InitializeComponent();
 
-            m_recipeManagerUI = new RecipeManagerUI(listView1, buttonNew, textBoxName, textBoxObjectData);
+            m_recipeManagerUI = new RecipeManagerUI(listView1, buttonNew, buttonSave, textBoxName, textBoxObjectData);
 
             textBoxRecipeDirectory.Text = m_recipeStoreLocator.GetRecipeDirectory();
             m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
@@ -39,13 +39,6 @@ namespace RecipeManager
             m_recipeManagerUI.PopulateList(m_recipeManager.Recipes);
 
             m_recipeManager.New();
-        }
-
-
-        private void SaveClick(object sender, EventArgs e)
-        {
-            m_recipeStore.Save(textBoxName.Text, textBoxObjectData.Text);
-            m_recipeManager.LoadRecipes();
         }
 
         private void SelectedIndexChanged(object sender, EventArgs e)

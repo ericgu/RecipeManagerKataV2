@@ -47,5 +47,28 @@ public void when_I_click_on_new__it_clears_the_name_and_directions()
     Assert.AreEqual("", recipeManagerUI.RecipeName);
     Assert.AreEqual("", recipeManagerUI.RecipeDirections);
 }
+
+
+[TestMethod()]
+public void when_I_click_on_save__it_stores_the_recipe_to_the_store_and_updates_the_display()
+{
+    RecipeStoreSimulator recipeStore = new RecipeStoreSimulator();
+    RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
+
+    RecipeManager recipeManager = new RecipeManager(recipeStore, recipeManagerUI);
+
+    recipeManagerUI.RecipeName = "Grits";
+    recipeManagerUI.RecipeDirections = "Stir";
+
+    recipeManagerUI.SimulateSaveClick();
+
+    var recipes = recipeStore.Load();
+
+    RecipeStoreSimulatorTests.ValidateRecipe(recipes, 0, "Grits", "Stir");
+
+    recipes = recipeManagerUI.SimulatorRecipes;
+
+    RecipeStoreSimulatorTests.ValidateRecipe(recipes, 0, "Grits", "Stir");
+}    
     }
 }

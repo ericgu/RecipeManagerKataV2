@@ -20,6 +20,7 @@ namespace RecipeManager
         }
 
         public event Action NewClick;
+        public event Action SaveClick;
 
         public string RecipeName { get; set; }
 
@@ -30,6 +31,14 @@ namespace RecipeManager
             if (NewClick != null)
             {
                 NewClick();
+            }
+        }
+
+        internal void SimulateSaveClick()
+        {
+            if (SaveClick != null)
+            {
+                SaveClick();
             }
         }
     }
