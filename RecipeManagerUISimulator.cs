@@ -18,5 +18,19 @@ namespace RecipeManager
         {
             m_recipes = recipes;
         }
+
+        public event Action NewClick;
+
+        public string RecipeName { get; set; }
+
+        public string RecipeDirections { get; set; }
+
+        public void SimulateDeleteClick()
+        {
+            if (NewClick != null)
+            {
+                NewClick();
+            }
+        }
     }
 }
