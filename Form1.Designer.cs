@@ -70,7 +70,6 @@
             this.buttonNew.TabIndex = 3;
             this.buttonNew.Text = "New";
             this.buttonNew.UseVisualStyleBackColor = true;
-            this.buttonNew.Click += new System.EventHandler(this.NewClick);
             // 
             // buttonSave
             // 

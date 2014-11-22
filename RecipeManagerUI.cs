@@ -13,6 +13,8 @@ public class RecipeManagerUI : IRecipeManagerUI
     {
         m_listView = listView;
         newButton.Click += newButton_Click;
+        m_textBoxName = textBoxName;
+        m_textBoxDirections = textBoxDirections;
     }
 
     void newButton_Click(object sender, System.EventArgs e)

@@ -25,7 +25,7 @@ namespace RecipeManager
 
         public string RecipeDirections { get; set; }
 
-        public void SimulateDeleteClick()
+        public void SimulateNewClick()
         {
             if (NewClick != null)
             {

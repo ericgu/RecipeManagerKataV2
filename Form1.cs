@@ -38,14 +38,9 @@ namespace RecipeManager
             }
             m_recipeManagerUI.PopulateList(m_recipeManager.Recipes);
 
-            NewClick(null, null);
+            m_recipeManager.New();
         }
 
-private void NewClick(object sender, EventArgs e)
-{
-    textBoxName.Text = "";
-    textBoxObjectData.Text = "";
-}
 
         private void SaveClick(object sender, EventArgs e)
         {
@@ -68,7 +63,7 @@ private void NewClick(object sender, EventArgs e)
             m_recipeStoreLocator.SetRecipeDirectory(textBoxRecipeDirectory.Text);
             m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
             m_recipeManager.LoadRecipes();
-            NewClick(null, null);
+            m_recipeManager.New();
         }
     }
 }
