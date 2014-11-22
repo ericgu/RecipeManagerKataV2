@@ -51,6 +51,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IRecipeManagerUI.cs" />
     <Compile Include="IRecipeStore.cs" />
     <Compile Include="IRecipeStoreLocator.cs" />
     <Compile Include="RecipeListViewItem.cs" />
@@ -58,9 +59,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeManager.cs" />
     <Compile Include="RecipeManagerUI.cs" />
+    <Compile Include="RecipeManagerUISimulator.cs" />
+    <Compile Include="RecipeManagerUISimulator_Tests.cs" />
     <Compile Include="RecipeStore.cs" />
     <Compile Include="RecipeStoreLocator.cs" />
     <Compile Include="RecipeStoreLocatorSimulator.cs" />
+    <Compile Include="RecipeManager_Tests.cs" />
     <Compile Include="RecipeStoreSimulator.cs" />
     <Compile Include="RecipeStoreLocator_Tests.cs" />
     <Compile Include="RecipeStore_Tests.cs" />

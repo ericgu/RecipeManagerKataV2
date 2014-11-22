@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace RecipeManager
 {
-public class RecipeManagerUI
+public class RecipeManagerUI : IRecipeManagerUI
 {
     private ListView m_listView;
 

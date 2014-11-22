@@ -4,11 +4,11 @@ namespace RecipeManager
 {
 public class RecipeManager
 {
-    private RecipeStore m_recipeStore;
-    private RecipeManagerUI m_recipeManagerUi;
+    private IRecipeStore m_recipeStore;
+    private IRecipeManagerUI m_recipeManagerUi;
     private List<Recipe> m_recipes; 
 
-    public RecipeManager(RecipeStore recipeStore, RecipeManagerUI recipeManagerUI)
+    public RecipeManager(IRecipeStore recipeStore, IRecipeManagerUI recipeManagerUI)
     {
         m_recipeManagerUi = recipeManagerUI;
         m_recipeStore = recipeStore;   

@@ -24,7 +24,7 @@ namespace RecipeManager
             }
         }
 
-        private static void ValidateRecipe(List<Recipe> recipes, int index, string name, string directions)
+        public static void ValidateRecipe(List<Recipe> recipes, int index, string name, string directions)
         {
             Assert.AreEqual(name, recipes.Skip(index).First().Name);
             Assert.AreEqual(directions, recipes.Skip(index).First().Text);
