@@ -8,21 +8,47 @@ namespace RecipeManager
 {
 class RecipeStoreSimulator: IRecipeStore
 {
-    private List<Recipe> m_recipes = new List<Recipe>();
+    private Dictionary<string, List<Recipe>> m_recipes = new Dictionary<string, List<Recipe>>();
+    private string m_recipeDirectory = String.Empty;
+
+    public RecipeStoreSimulator()
+    {
+        RecipeDirectory = String.Empty;
+    }
+    private List<Recipe> CurrentRecipes
+    {
+        get { return m_recipes[m_recipeDirectory]; }
+    }
 
     public List<Recipe> Load()
     {
-        return m_recipes;
+        return CurrentRecipes;
     }
 
     public void Delete(string name)
     {
-        m_recipes = m_recipes.Where(recipe => recipe.Name != name).ToList();
+        m_recipes[m_recipeDirectory] = m_recipes[m_recipeDirectory].Where(recipe => recipe.Name != name).ToList();
     }
 
     public void Save(string name, string directions)
     {
-        m_recipes.Add(new Recipe {Name = name, Text = directions});
+        CurrentRecipes.Add(new Recipe { Name = name, Text = directions });
+    }
+
+    public string RecipeDirectory
+    {
+        get
+        {
+            return m_recipeDirectory;
+        }
+        set
+        {
+            m_recipeDirectory = value;
+            if (!m_recipes.ContainsKey(m_recipeDirectory))
+            {
+                m_recipes.Add(m_recipeDirectory, new List<Recipe>());
+            }
+        }
     }
 }
 }

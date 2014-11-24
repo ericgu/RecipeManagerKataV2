@@ -23,11 +23,14 @@ namespace RecipeManager
         public event Action SaveClick;
         public event Action<Recipe> RecipeSelected;
         public event Action<Recipe> DeleteClick;
+        public event Action<string> SaveRecipeDirectoryClick;
 
 
         public string RecipeName { get; set; }
 
         public string RecipeDirections { get; set; }
+
+        public string RecipeDirectory { get; set;  }
 
         public void SimulateNewClick()
         {
@@ -58,6 +61,14 @@ namespace RecipeManager
             if (DeleteClick != null)
             {
                 DeleteClick(recipe);
+            }
+        }
+
+        internal void SimulateSaveRecipeDirectoryClick(string directory)
+        {
+            if (SaveRecipeDirectoryClick != null)
+            {
+                SaveRecipeDirectoryClick(directory);
             }
         }
     }

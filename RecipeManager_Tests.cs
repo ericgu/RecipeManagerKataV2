@@ -20,7 +20,7 @@ public void when_I_call_LoadRecipes_with_two_recipes_in_the_store__it_sends_them
 
     RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
 
-    RecipeManager recipeManager = new RecipeManager(recipeStore, recipeManagerUI);
+    RecipeManager recipeManager = new RecipeManager(recipeStore, null, recipeManagerUI);
 
     recipeManager.LoadRecipes();
 
@@ -30,11 +30,34 @@ public void when_I_call_LoadRecipes_with_two_recipes_in_the_store__it_sends_them
 }
 
 [TestMethod()]
+public void when_I_call_Initialize_with_two_recipes_in_the_store__it_sends_them_to_the_UI_class()
+{
+    RecipeStoreSimulator recipeStore = new RecipeStoreSimulator();
+    recipeStore.Save("Grits", "Stir");
+    recipeStore.Save("Bacon", "Fry");
+
+    RecipeStoreLocatorSimulator recipeStoreLocator = new RecipeStoreLocatorSimulator();
+    recipeStoreLocator.SetRecipeDirectory("First");
+
+    RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
+
+    RecipeManager recipeManager = new RecipeManager(recipeStore, recipeStoreLocator, recipeManagerUI);
+
+    recipeManager.Initialize();
+
+    Assert.AreEqual(2, recipeManagerUI.SimulatorRecipes.Count);
+    RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUI.SimulatorRecipes, 0, "Grits", "Stir");
+    RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUI.SimulatorRecipes, 1, "Bacon", "Fry");
+
+    Assert.AreEqual("First", recipeManagerUI.RecipeDirectory);
+}
+
+[TestMethod()]
 public void when_I_click_on_new__it_clears_the_name_and_directions()
 {
     RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
 
-    RecipeManager recipeManager = new RecipeManager(null, recipeManagerUI);
+    RecipeManager recipeManager = new RecipeManager(null, null, recipeManagerUI);
 
     recipeManagerUI.RecipeName = "Grits";
     recipeManagerUI.RecipeDirections = "Stir";
@@ -55,7 +78,7 @@ public void when_I_click_on_save__it_stores_the_recipe_to_the_store_and_updates_
     RecipeStoreSimulator recipeStore = new RecipeStoreSimulator();
     RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
 
-    RecipeManager recipeManager = new RecipeManager(recipeStore, recipeManagerUI);
+    RecipeManager recipeManager = new RecipeManager(recipeStore, null, recipeManagerUI);
 
     recipeManagerUI.RecipeName = "Grits";
     recipeManagerUI.RecipeDirections = "Stir";
@@ -76,7 +99,7 @@ public void when_I_select_a_recipe__it_sets_the_name_and_directions()
 {
     RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
 
-    RecipeManager recipeManager = new RecipeManager(null, recipeManagerUI);
+    RecipeManager recipeManager = new RecipeManager(null, null, recipeManagerUI);
 
     Recipe recipe = new Recipe {Name = "Grits", Text = "Stir"};
 
@@ -87,15 +110,21 @@ public void when_I_select_a_recipe__it_sets_the_name_and_directions()
 }
 
 [TestMethod()]
-public void when_I_delete_one_of_two_recipes__it_is_removed_from_the_store_and_the_list_and_the_current_recipe_is_blank()
+public void when_I_change_the_recipe_directory__it_should_change_the_store_directory_reload_recipes_and_clear_the_current_recipe()
 {
     RecipeStoreSimulator recipeStore = new RecipeStoreSimulator();
+    recipeStore.RecipeDirectory = "Second";
+    recipeStore.Save("Milk", "Pour");
+    
+    recipeStore.RecipeDirectory = "First";
     recipeStore.Save("Grits", "Stir");
     recipeStore.Save("Bacon", "Fry");
-
+    
+    
     RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
+    RecipeStoreLocatorSimulator recipeStoreLocatorSimulator = new RecipeStoreLocatorSimulator();
 
-    RecipeManager recipeManager = new RecipeManager(recipeStore, recipeManagerUI);
+    RecipeManager recipeManager = new RecipeManager(recipeStore, recipeStoreLocatorSimulator, recipeManagerUI);
 
     recipeManager.LoadRecipes();
 
@@ -103,14 +132,12 @@ public void when_I_delete_one_of_two_recipes__it_is_removed_from_the_store_and_t
     RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUI.SimulatorRecipes, 0, "Grits", "Stir");
     RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUI.SimulatorRecipes, 1, "Bacon", "Fry");
 
-    recipeManagerUI.SimulateDeleteClick(recipeManagerUI.SimulatorRecipes.First());
+    recipeManagerUI.SimulateSaveRecipeDirectoryClick("Second");
+
+    Assert.AreEqual("Second", recipeStore.RecipeDirectory);
 
     Assert.AreEqual(1, recipeManagerUI.SimulatorRecipes.Count);
-    RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUI.SimulatorRecipes, 0, "Bacon", "Fry");
-
-    var recipes = recipeStore.Load();
-    Assert.AreEqual(1, recipes.Count);
-    RecipeStoreSimulatorTests.ValidateRecipe(recipes, 0, "Bacon", "Fry");
+    RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUI.SimulatorRecipes, 0, "Milk", "Pour");
 
     Assert.AreEqual("", recipeManagerUI.RecipeName);
     Assert.AreEqual("", recipeManagerUI.RecipeDirections);

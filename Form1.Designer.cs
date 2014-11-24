@@ -157,7 +157,6 @@
             this.buttonSaveRecipeDirectory.TabIndex = 12;
             this.buttonSaveRecipeDirectory.Text = "Save";
             this.buttonSaveRecipeDirectory.UseVisualStyleBackColor = true;
-            this.buttonSaveRecipeDirectory.Click += new System.EventHandler(this.buttonSaveRecipeDirectory_Click);
             // 
             // Form1
             // 

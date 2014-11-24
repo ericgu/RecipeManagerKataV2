@@ -11,8 +11,10 @@ public interface IRecipeManagerUI
     event Action SaveClick;
     event Action<Recipe> RecipeSelected;
     event Action<Recipe> DeleteClick;
+    event Action<string> SaveRecipeDirectoryClick;
 
     string RecipeName { get; set; }
     string RecipeDirections { get; set; }
+    string RecipeDirectory { get; set; }
 }
 }

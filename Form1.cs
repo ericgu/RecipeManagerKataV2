@@ -13,29 +13,25 @@ namespace RecipeManager
 {
     public partial class Form1 : Form
     {
-        private RecipeStore m_recipeStore;
-        private RecipeStoreLocator m_recipeStoreLocator = new RecipeStoreLocator();
-        private RecipeManagerUI m_recipeManagerUI;
         private RecipeManager m_recipeManager;
 
         public Form1()
         {
             InitializeComponent();
 
-            m_recipeManagerUI = new RecipeManagerUI(listView1, buttonNew, buttonSave, buttonDelete, textBoxName, textBoxObjectData);
+            var recipeManagerUI = new RecipeManagerUI(listView1, 
+                buttonNew, 
+                buttonSave, 
+                buttonDelete, 
+                buttonSaveRecipeDirectory, 
+                textBoxName, 
+                textBoxObjectData, 
+                textBoxRecipeDirectory);
 
-            textBoxRecipeDirectory.Text = m_recipeStoreLocator.GetRecipeDirectory();
-            m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
-            m_recipeManager = new RecipeManager(m_recipeStore, m_recipeManagerUI);
-            m_recipeManager.LoadRecipes();
-        }
-
-        private void buttonSaveRecipeDirectory_Click(object sender, EventArgs e)
-        {
-            m_recipeStoreLocator.SetRecipeDirectory(textBoxRecipeDirectory.Text);
-            m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
-            m_recipeManager.LoadRecipes();
-            m_recipeManager.New();
+            var recipeStoreLocator = new RecipeStoreLocator();
+            var recipeStore = new RecipeStore(recipeStoreLocator.GetRecipeDirectory());
+            m_recipeManager = new RecipeManager(recipeStore, recipeStoreLocator, recipeManagerUI);
+            m_recipeManager.Initialize();
         }
     }
 }

@@ -8,16 +8,34 @@ public class RecipeManagerUI : IRecipeManagerUI
     private ListView m_listView;
     private TextBox m_textBoxName;
     private TextBox m_textBoxDirections;
+    private TextBox m_testBoxRecipeDirectory;
 
-    public RecipeManagerUI(ListView listView, Button newButton, Button saveButton, Button deleteButton, TextBox textBoxName, TextBox textBoxDirections)
+    public RecipeManagerUI(ListView listView, Button newButton, Button saveButton, Button deleteButton, Button saveDirectoryLocationButton, TextBox textBoxName, TextBox textBoxDirections, TextBox textBoxRecipeDirectory)
     {
         m_listView = listView;
+        m_textBoxName = textBoxName;
+        m_textBoxDirections = textBoxDirections;
+        m_testBoxRecipeDirectory = textBoxRecipeDirectory;
+
         newButton.Click += newButton_Click;
         saveButton.Click += saveButton_Click;
         listView.SelectedIndexChanged += listView_SelectedIndexChanged;
         deleteButton.Click += deleteButton_Click;
-        m_textBoxName = textBoxName;
-        m_textBoxDirections = textBoxDirections;
+        saveDirectoryLocationButton.Click += saveDirectoryLocationButton_Click;
+    }
+
+    public event System.Action SaveClick;
+    public event System.Action NewClick;
+    public event System.Action<Recipe> RecipeSelected;
+    public event System.Action<Recipe> DeleteClick;
+    public event System.Action<string> SaveRecipeDirectoryClick;
+
+    void saveDirectoryLocationButton_Click(object sender, System.EventArgs e)
+    {
+        if (SaveRecipeDirectoryClick != null)
+        {
+            SaveRecipeDirectoryClick(m_testBoxRecipeDirectory.Text);
+        }
     }
 
     private void deleteButton_Click(object sender, System.EventArgs e)
@@ -69,10 +87,6 @@ public class RecipeManagerUI : IRecipeManagerUI
         }
     }
 
-    public event System.Action SaveClick;
-    public event System.Action NewClick;
-    public event System.Action<Recipe> RecipeSelected;
-    public event System.Action<Recipe> DeleteClick;
 
     public string RecipeName
     {
@@ -90,6 +104,12 @@ public class RecipeManagerUI : IRecipeManagerUI
     {
         get { return m_textBoxDirections.Text; }
         set { m_textBoxDirections.Text = value; }
+    }
+
+    public string RecipeDirectory
+    {
+        get { return m_testBoxRecipeDirectory.Text; }
+        set { m_testBoxRecipeDirectory.Text = value; }
     }
 }
 }
