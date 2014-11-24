@@ -9,6 +9,7 @@ public interface IRecipeManagerUI
 
     event Action NewClick;
     event Action SaveClick;
+    event Action<Recipe> RecipeSelected;
 
     string RecipeName { get; set; }
     string RecipeDirections { get; set; }

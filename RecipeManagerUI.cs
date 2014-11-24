@@ -14,8 +14,21 @@ public class RecipeManagerUI : IRecipeManagerUI
         m_listView = listView;
         newButton.Click += newButton_Click;
         saveButton.Click += saveButton_Click;
+        listView.SelectedIndexChanged += listView_SelectedIndexChanged;
         m_textBoxName = textBoxName;
         m_textBoxDirections = textBoxDirections;
+    }
+
+    void listView_SelectedIndexChanged(object sender, System.EventArgs e)
+    {
+        if (RecipeSelected != null)
+        {
+            foreach (RecipeListViewItem recipeListViewItem in m_listView.SelectedItems)
+            {
+                RecipeSelected(recipeListViewItem.Recipe);
+                break;
+            }
+        }
     }
 
     void saveButton_Click(object sender, System.EventArgs e)
@@ -46,6 +59,7 @@ public class RecipeManagerUI : IRecipeManagerUI
 
     public event System.Action SaveClick;
     public event System.Action NewClick;
+    public event System.Action<Recipe> RecipeSelected;
 
     public string RecipeName
     {

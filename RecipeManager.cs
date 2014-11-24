@@ -16,6 +16,13 @@ public class RecipeManager
 
         m_recipeManagerUi.NewClick += New;
         m_recipeManagerUi.SaveClick += Save;
+        m_recipeManagerUi.RecipeSelected += RecipeSelected;
+    }
+
+    void RecipeSelected(Recipe recipe)
+    {
+        m_recipeManagerUi.RecipeName = recipe.Name;
+        m_recipeManagerUi.RecipeDirections = recipe.Text;
     }
 
     public List<Recipe> Recipes { get { return m_recipes; } }

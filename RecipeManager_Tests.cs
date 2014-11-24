@@ -69,6 +69,21 @@ public void when_I_click_on_save__it_stores_the_recipe_to_the_store_and_updates_
     recipes = recipeManagerUI.SimulatorRecipes;
 
     RecipeStoreSimulatorTests.ValidateRecipe(recipes, 0, "Grits", "Stir");
-}    
+}
+
+[TestMethod()]
+public void when_I_select_a_recipe__it_sets_the_name_and_directions()
+{
+    RecipeManagerUISimulator recipeManagerUI = new RecipeManagerUISimulator();
+
+    RecipeManager recipeManager = new RecipeManager(null, recipeManagerUI);
+
+    Recipe recipe = new Recipe {Name = "Grits", Text = "Stir"};
+
+    recipeManagerUI.SimulateRecipeSelected(recipe);
+
+    Assert.AreEqual("Grits", recipeManagerUI.RecipeName);
+    Assert.AreEqual("Stir", recipeManagerUI.RecipeDirections);
+} 
     }
 }
