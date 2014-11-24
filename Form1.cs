@@ -41,16 +41,6 @@ namespace RecipeManager
             m_recipeManager.New();
         }
 
-        private void SelectedIndexChanged(object sender, EventArgs e)
-        {
-            foreach (RecipeListViewItem recipeListViewItem in listView1.SelectedItems)
-            {
-                textBoxName.Text = recipeListViewItem.Recipe.Name;
-                textBoxObjectData.Text = recipeListViewItem.Recipe.Text;
-                break;
-            }
-        }
-
         private void buttonSaveRecipeDirectory_Click(object sender, EventArgs e)
         {
             m_recipeStoreLocator.SetRecipeDirectory(textBoxRecipeDirectory.Text);
