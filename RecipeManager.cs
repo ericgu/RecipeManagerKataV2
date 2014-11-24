@@ -17,6 +17,15 @@ public class RecipeManager
         m_recipeManagerUi.NewClick += New;
         m_recipeManagerUi.SaveClick += Save;
         m_recipeManagerUi.RecipeSelected += RecipeSelected;
+        m_recipeManagerUi.DeleteClick += DeleteClick;
+    }
+
+    void DeleteClick(Recipe recipe)
+    {
+        m_recipeStore.Delete(recipe.Name);
+        LoadRecipes();
+
+        New();
     }
 
     void RecipeSelected(Recipe recipe)

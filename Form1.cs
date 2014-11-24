@@ -22,23 +22,12 @@ namespace RecipeManager
         {
             InitializeComponent();
 
-            m_recipeManagerUI = new RecipeManagerUI(listView1, buttonNew, buttonSave, textBoxName, textBoxObjectData);
+            m_recipeManagerUI = new RecipeManagerUI(listView1, buttonNew, buttonSave, buttonDelete, textBoxName, textBoxObjectData);
 
             textBoxRecipeDirectory.Text = m_recipeStoreLocator.GetRecipeDirectory();
             m_recipeStore = new RecipeStore(m_recipeStoreLocator.GetRecipeDirectory());
             m_recipeManager = new RecipeManager(m_recipeStore, m_recipeManagerUI);
             m_recipeManager.LoadRecipes();
-        }
-
-        private void DeleteClick(object sender, EventArgs e)
-        {
-            foreach (RecipeListViewItem recipeListViewItem in listView1.SelectedItems)
-            {
-                m_recipeStore.Delete(recipeListViewItem.Recipe.Name);
-            }
-            m_recipeManagerUI.PopulateList(m_recipeManager.Recipes);
-
-            m_recipeManager.New();
         }
 
         private void buttonSaveRecipeDirectory_Click(object sender, EventArgs e)
