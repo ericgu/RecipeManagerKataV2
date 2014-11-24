@@ -17,11 +17,11 @@ namespace RecipeManager
             var recipeManagerUISimulator = new RecipeManagerUISimulator();
 
             var recipes = new List<Recipe>();
-            recipes.Add(new Recipe {Name = "A", Text = "B"});
+            recipes.Add(new Recipe {Name = "A", Directions = "B", Size = 1});
 
             recipeManagerUISimulator.PopulateList(recipes);
 
-            RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUISimulator.SimulatorRecipes, 0, "A", "B");
+            RecipeStoreSimulatorTests.ValidateRecipe(recipeManagerUISimulator.SimulatorRecipes, 0, "A", "B", 1);
         }
     }
 }

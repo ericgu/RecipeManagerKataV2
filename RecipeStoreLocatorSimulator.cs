@@ -10,26 +10,26 @@ namespace RecipeManager
 {
     class RecipeStoreLocatorSimulator: IRecipeStoreLocator
     {
-        private string m_directory;
+        private string m_location;
 
-        public string GetRecipeDirectory()
+        public string GetRecipeLocation()
         {
-            if (m_directory != null)
+            if (m_location != null)
             {
-                return m_directory;
+                return m_location;
             }
 
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RecipeMaker\RecipeDirectory");
         }
 
-        public void SetRecipeDirectory(string recipeDirectory)
+        public void SetRecipeLocation(string recipeLocation)
         {
-            m_directory = recipeDirectory;
+            m_location = recipeLocation;
         }
 
         public void ResetToDefault()
         {
-            m_directory = null;
+            m_location = null;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace RecipeManager
 {
     public class RecipeStoreLocator : IRecipeStoreLocator
     {
-        public string GetRecipeDirectory()
+        public string GetRecipeLocation()
         {
             string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "RecipeMaker");
@@ -22,7 +22,7 @@ namespace RecipeManager
             return directory;
         }
 
-        public void SetRecipeDirectory(string recipeDirectory)
+        public void SetRecipeLocation(string recipeDirectory)
         {
             string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "RecipeMaker");

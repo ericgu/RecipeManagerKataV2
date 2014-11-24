@@ -27,10 +27,13 @@ namespace RecipeManager
             }
         }
 
-        public static void ValidateRecipe(List<Recipe> recipes, int index, string name, string directions)
+        public static void ValidateRecipe(List<Recipe> recipes, int index, string name, string directions, int size)
         {
-            Assert.AreEqual(name, recipes.Skip(index).First().Name);
-            Assert.AreEqual(directions, recipes.Skip(index).First().Text);
+            Recipe recipe = recipes.Skip(index).First();
+
+            Assert.AreEqual(name, recipe.Name);
+            Assert.AreEqual(directions, recipe.Directions);
+            Assert.AreEqual(size, recipe.Size);
         }
 
         [TestMethod()]
@@ -56,7 +59,7 @@ namespace RecipeManager
             var recipes = recipeStore.Load();
 
             Assert.AreEqual(1, recipes.Count);
-            ValidateRecipe(recipes, 0, "Grits", "Grind and cook");
+            ValidateRecipe(recipes, 0, "Grits", "Grind and cook", 14);
 
             ClearStore(recipeStore);
         }
@@ -72,8 +75,8 @@ namespace RecipeManager
             var recipes = recipeStore.Load();
 
             Assert.AreEqual(2, recipes.Count);
-            ValidateRecipe(recipes, 0, "Bacon", "Saute");
-            ValidateRecipe(recipes, 1, "Grits", "Grind and cook");
+            ValidateRecipe(recipes, 0, "Bacon", "Saute", 5);
+            ValidateRecipe(recipes, 1, "Grits", "Grind and cook", 14);
 
             ClearStore(recipeStore);
         }
@@ -90,7 +93,7 @@ namespace RecipeManager
             var recipes = recipeStore.Load();
 
             Assert.AreEqual(1, recipes.Count);
-            ValidateRecipe(recipes, 0, "Bacon", "Saute");
+            ValidateRecipe(recipes, 0, "Bacon", "Saute", 5);
 
             ClearStore(recipeStore);
         }
@@ -100,24 +103,24 @@ namespace RecipeManager
         {
             var recipeStore = CreateRecipeStore();
 
-            recipeStore.RecipeDirectory = FirstDirectory;
+            recipeStore.RecipeLocation = FirstDirectory;
             recipeStore.Save("Grits", "Grind and cook");
-            recipeStore.RecipeDirectory = SecondDirectory;
+            recipeStore.RecipeLocation = SecondDirectory;
             recipeStore.Save("Bacon", "Saute");
 
-            recipeStore.RecipeDirectory = FirstDirectory;
+            recipeStore.RecipeLocation = FirstDirectory;
             var recipes = recipeStore.Load();
 
             Assert.AreEqual(1, recipes.Count);
-            ValidateRecipe(recipes, 0, "Grits", "Grind and cook");
+            ValidateRecipe(recipes, 0, "Grits", "Grind and cook", 14);
 
-            recipeStore.RecipeDirectory = SecondDirectory;
+            recipeStore.RecipeLocation = SecondDirectory;
             recipes = recipeStore.Load();
 
-            ValidateRecipe(recipes, 0, "Bacon", "Saute");
+            ValidateRecipe(recipes, 0, "Bacon", "Saute", 5);
 
             ClearStore(recipeStore);
-            recipeStore.RecipeDirectory = FirstDirectory;
+            recipeStore.RecipeLocation = FirstDirectory;
             ClearStore(recipeStore);
         }
     }

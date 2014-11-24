@@ -22,7 +22,7 @@ namespace RecipeManager
         {
             var recipeStoreLocator = CreateRecipeStoreLocator();
 
-            var directory = recipeStoreLocator.GetRecipeDirectory();
+            var directory = recipeStoreLocator.GetRecipeLocation();
 
             VerifyDirectoryIsTheDefault(directory);
         }
@@ -38,8 +38,8 @@ namespace RecipeManager
         {
             var recipeStoreLocator = CreateRecipeStoreLocator();
 
-            recipeStoreLocator.SetRecipeDirectory(@"c:\recipes");
-            var directory = recipeStoreLocator.GetRecipeDirectory();
+            recipeStoreLocator.SetRecipeLocation(@"c:\recipes");
+            var directory = recipeStoreLocator.GetRecipeLocation();
 
             Assert.AreEqual(@"c:\recipes", directory);
 
@@ -51,9 +51,9 @@ namespace RecipeManager
         {
             var recipeStoreLocator = CreateRecipeStoreLocator();
 
-            recipeStoreLocator.SetRecipeDirectory(@"c:\recipes");
+            recipeStoreLocator.SetRecipeLocation(@"c:\recipes");
             recipeStoreLocator.ResetToDefault();
-            var directory = recipeStoreLocator.GetRecipeDirectory();
+            var directory = recipeStoreLocator.GetRecipeLocation();
 
             VerifyDirectoryIsTheDefault(directory);
         }

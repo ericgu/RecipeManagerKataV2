@@ -26,14 +26,14 @@ public class RecipeManager
     public void Initialize()
     {
 
-        m_recipeManagerUi.RecipeDirectory = m_recipeStoreLocator.GetRecipeDirectory();
+        m_recipeManagerUi.RecipeDirectory = m_recipeStoreLocator.GetRecipeLocation();
         LoadRecipes();
     }
 
     void SaveRecipeDirectoryClick(string recipeDirectory)
     {
-        m_recipeStoreLocator.SetRecipeDirectory(recipeDirectory);
-        m_recipeStore.RecipeDirectory = m_recipeStoreLocator.GetRecipeDirectory();
+        m_recipeStoreLocator.SetRecipeLocation(recipeDirectory);
+        m_recipeStore.RecipeLocation = m_recipeStoreLocator.GetRecipeLocation();
 
         LoadRecipes();
         New();
@@ -50,7 +50,7 @@ public class RecipeManager
     void RecipeSelected(Recipe recipe)
     {
         m_recipeManagerUi.RecipeName = recipe.Name;
-        m_recipeManagerUi.RecipeDirections = recipe.Text;
+        m_recipeManagerUi.RecipeDirections = recipe.Directions;
     }
 
     public List<Recipe> Recipes { get { return m_recipes; } }

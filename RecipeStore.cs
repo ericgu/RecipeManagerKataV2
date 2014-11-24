@@ -25,7 +25,7 @@ public class RecipeStore : IRecipeStore
                     {
                         Name = fileInfo.Name,
                         Size = fileInfo.Length,
-                        Text = File.ReadAllText(fileInfo.FullName)
+                        Directions = File.ReadAllText(fileInfo.FullName)
                     })
             .ToList();
     }
@@ -40,7 +40,7 @@ public class RecipeStore : IRecipeStore
         File.WriteAllText(Path.Combine(m_recipeDirectory, name), directions);
     }
 
-    public string RecipeDirectory
+    public string RecipeLocation
     {
         get
         {
